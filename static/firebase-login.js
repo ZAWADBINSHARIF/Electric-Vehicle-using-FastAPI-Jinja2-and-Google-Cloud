@@ -35,7 +35,7 @@ if (logout)
 if (login_btn)
     login_btn.addEventListener('click', async e => {
         e.preventDefault();
-        console.log('login');
+
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
@@ -47,8 +47,12 @@ if (login_btn)
 
             const token = response._tokenResponse.idToken;
             document.cookie = `token=${token};path=/;SameSite=Strict`;
-            window.location = "/";
 
+            setTimeout(() => {
+                window.location = "/";
+            }, 1000)
+
+            
         } catch (error) {
             console.log(error);
         }

@@ -42,7 +42,7 @@ async def log_middleware(req: Request, call_next):
         except Exception as err:
             print(err)
     else:
-        req.state.user_info = None
+        req.state.user_info = {}
 
     response = await call_next(req)
     return response

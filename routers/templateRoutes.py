@@ -12,7 +12,11 @@ template = Jinja2Templates(directory="templates")
 @templateRoutes.get("/", response_class=HTMLResponse)
 async def home_page(req: Request):
 
-    user_info = req.state.user_info or {}
+    try:
+        user_info = req.state.user_info
+    except:
+        user_info = None
+
 
     return template.TemplateResponse(
         request=req, name="home.html", context={"user_info": user_info}
