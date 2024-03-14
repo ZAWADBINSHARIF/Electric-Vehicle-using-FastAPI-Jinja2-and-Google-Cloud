@@ -2,8 +2,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
-from google.auth.transport import requests
-import google.oauth2.id_token
+
 
 # internal import
 from config.databaseConnection import db
@@ -12,7 +11,6 @@ from models.authModels import SignUpModel, LoginModel
 
 authRoute = APIRouter()
 
-firebase_request_adapter = requests.Request()
 
 
 @authRoute.post("/signup")

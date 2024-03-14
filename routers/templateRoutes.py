@@ -11,7 +11,12 @@ template = Jinja2Templates(directory="templates")
 
 @templateRoutes.get("/", response_class=HTMLResponse)
 async def home_page(req: Request):
-    return template.TemplateResponse(request=req, name="home.html")
+
+    user_info = req.state.user_info or {}
+
+    return template.TemplateResponse(
+        request=req, name="home.html", context={"user_info": user_info}
+    )
 
 
 @templateRoutes.get("/login", response_class=HTMLResponse)

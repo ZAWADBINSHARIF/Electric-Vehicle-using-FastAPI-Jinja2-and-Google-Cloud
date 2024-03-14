@@ -1,10 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
 const signup_btn = document.getElementById("signup-btn");
 const login_btn = document.getElementById("login-btn");
-
+const logout = document.getElementById('logout');
 
 const firebaseConfig = {
     apiKey: "AIzaSyDRdZr53xComz4lEeOdYkwct-2-x8U_a_k",
@@ -20,49 +20,58 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-
-
-login_btn.addEventListener('click', async e => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    if (!email && !password)
-        return;
-
-    try {
-        const response = await signInWithEmailAndPassword(auth, email, password);
-        console.log(response);
-
-        const token = response._tokenResponse.idToken;
-        document.cookie = `token=${token};path=/;SameSite=Strict`;
-        window.location = "/";
-
-    } catch (error) {
-        console.log(error);
+if (logout)
+    logout.addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+            document.cookie = `token=;path=/;SameSite=Strict`;
+            window.location = "/";
+        } catch (error) {
+            console.log(error);
+        }
     }
+    );
 
-});
+if (login_btn)
+    login_btn.addEventListener('click', async e => {
+        e.preventDefault();
+        console.log('login');
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
+        if (!email && !password)
+            return;
 
-signup_btn.addEventListener('click', async e => {
-    e.preventDefault();
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password);
 
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
+            const token = response._tokenResponse.idToken;
+            document.cookie = `token=${token};path=/;SameSite=Strict`;
+            window.location = "/";
 
-    if (!email && !password)
-        return;
+        } catch (error) {
+            console.log(error);
+        }
 
-    try {
-        await createUserWithEmailAndPassword(auth, email, password);
+    });
 
-        window.location = "/login";
+if (signup_btn)
+    signup_btn.addEventListener('click', async e => {
+        e.preventDefault();
 
-    } catch (error) {
-        console.log(error);
-    }
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
 
-})
+        if (!email && !password)
+            return;
 
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+
+            window.location = "/login";
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    });
