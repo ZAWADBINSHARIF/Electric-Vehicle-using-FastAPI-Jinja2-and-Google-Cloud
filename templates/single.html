@@ -1,0 +1,169 @@
+{% include "partials/header.html" %} {% if vehicle: %}
+
+<div class="card">
+  <div class="h2 pt-4 text-center">Electric Vehicle Information</div>
+  <div class="card-body">
+    <form id="single-form">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          value="{{vehicle['vehicle']['name']}}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="manufacturer" class="form-label">Manufacturer:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="manufacturer"
+          name="manufacturer"
+          value="{{vehicle['vehicle']['manufacturer']}}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="year" class="form-label">Year:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="year"
+          name="year"
+          value="{{vehicle['vehicle']['year']}}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="batterySize" class="form-label">Battery Size (Kwh):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="batterySize"
+          name="batterySize"
+          step="0.01"
+          value="{{vehicle['vehicle']['batterySize']}}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="wltpRange"
+          value="{{vehicle['vehicle']['wltpRange']}}"
+          name="wltpRange"
+          placeholder="300 km"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cost" class="form-label">Cost:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="cost"
+          name="cost"
+          step="0.01"
+          value="{{vehicle['vehicle']['cost']}}"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="power" class="form-label">Power (Kw):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="power"
+          name="power"
+          step="0.01"
+          value="{{vehicle['vehicle']['power']}}"
+          required
+        />
+      </div>
+      {% if user_info %}
+      <div class="d-flex justify-content-between">
+        <button type="button" id="edit-vehicle-btn" class="btn red-rose-btn">
+          Edit
+        </button>
+        <button
+          type="button"
+          id="update-vehicle-btn"
+          class="btn red-rose-btn"
+          onclick="updateVehicle('{{id}}')"
+        >
+          update
+        </button>
+        <button
+          type="button"
+          onclick="deleteVehicle('{{id}}')"
+          id="delete"
+          class="btn red-rose-btn"
+        >
+          Delete
+        </button>
+      </div>
+      {% endif %}
+    </form>
+  </div>
+</div>
+
+{% endif %}
+
+<script>
+  const editForm = document.querySelector('#single-form');
+  const editButton = document.querySelector('#edit-vehicle-btn');
+  const updateButton = document.querySelector('#update-vehicle-btn');
+
+  let flag = true;
+
+  async function deleteVehicle(id) {
+    try {
+      await fetch(`/vehicle/${id}`, {
+        method: 'delete',
+      });
+      window.location = '/';
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  editForm.querySelectorAll('input').forEach((input) => {
+    input.disabled = true;
+  });
+
+  async function updateVehicle(id) {
+    if (flag) return;
+
+    const formData = new FormData(editForm);
+    const formObj = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch(`/vehicle/${id}`, {
+        method: 'put',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(formObj),
+      });
+      console.log(response);
+      location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  editButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    editForm.querySelectorAll('input').forEach((input) => {
+      input.disabled = !flag;
+    });
+    flag = !flag;
+  });
+</script>
+
+{% include "partials/footer.html" %}

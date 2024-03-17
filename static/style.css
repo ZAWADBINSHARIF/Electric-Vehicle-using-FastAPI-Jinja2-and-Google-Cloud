@@ -28,3 +28,16 @@ a {
   color: #ffffff;
   background-color: var(--RED_ROSE);
 }
+
+.red-rose-btn:hover {
+  border: 1px solid var(--RED_ROSE);
+  background-color: #ffffff;
+}
+
+.card {
+  /* background-color: #ffcccc; */
+  border: none;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

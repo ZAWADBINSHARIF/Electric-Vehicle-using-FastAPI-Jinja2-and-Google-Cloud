@@ -8,7 +8,6 @@ from google.auth.transport import requests
 
 # internal import
 from routers.templateRoutes import templateRoutes
-from routers.authRoutes import authRoute
 from routers.electricVehicleRoutes import electricVehicleRoutes
 
 
@@ -50,8 +49,6 @@ async def log_middleware(req: Request, call_next):
 
 # ** Template Routes
 app.include_router(templateRoutes)
-# ** Auth routers for login and sign up
-app.include_router(authRoute)
 # ** Electric Vehicle Routes where vehicles can be editable
 app.include_router(electricVehicleRoutes)
 

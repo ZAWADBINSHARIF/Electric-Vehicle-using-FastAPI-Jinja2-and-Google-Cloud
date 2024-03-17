@@ -1,0 +1,93 @@
+<!-- header part  -->
+{% include "partials/header.html" %}
+
+<div class="card">
+  <div class="h2 pt-3 text-center">Electric Vehicle Form</div>
+  <div class="card-body">
+    <form id="add-form">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="manufacturer" class="form-label">Manufacturer:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="manufacturer"
+          name="manufacturer"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="year" class="form-label">Year:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="year"
+          name="year"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="batterySize" class="form-label">Battery Size (Kwh):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="batterySize"
+          name="batterySize"
+          step="0.01"
+          placeholder="400 kwh"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="wltpRange"
+          name="wltpRange"
+          placeholder="300 km"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="cost" class="form-label">Cost:</label>
+        <input
+          type="number"
+          class="form-control"
+          id="cost"
+          name="cost"
+          step="0.01"
+          placeholder="50000 $"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="power" class="form-label">Power (Kw):</label>
+        <input
+          type="number"
+          class="form-control"
+          id="power"
+          name="power"
+          step="0.01"
+          placeholder="220 kw"
+          required
+        />
+      </div>
+      <button type="submit" id="add-vehicle-btn" class="btn red-rose-btn">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- footer part  -->
+{% include "partials/footer.html" %}

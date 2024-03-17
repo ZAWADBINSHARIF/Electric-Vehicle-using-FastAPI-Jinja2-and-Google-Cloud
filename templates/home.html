@@ -1,9 +1,24 @@
 <!-- header part  -->
 {% include "partials/header.html" %}
 
-<div class="container mt-5">
-  <h1>Hello, world!</h1>
+<div
+  class="electric-vehicle-wrapper d-flex gap-3 flex-wrap justify-content-center"
+>
+  {% if all_vehicles: %} {% for vehicle in all_vehicles: %}
+  <div class="card" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">{{ vehicle['fields']['name'] }}</h5>
+      <ul>
+        <li class="card-text">power: {{ vehicle['fields']['power'] }} kw</li>
+        <li class="card-text">
+          Battery Size: {{ vehicle['fields']['batterySize'] }} kWh
+        </li>
+        <li class="card-text">Price: ${{ vehicle['fields']['cost'] }}</li>
+      </ul>
+      <a href="/single/{{vehicle['id']}}" class="btn red-rose-btn">Read More</a>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
 </div>
-
 <!-- footer part  -->
 {% include "partials/footer.html" %}
