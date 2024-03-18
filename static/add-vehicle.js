@@ -7,6 +7,11 @@ if (addVehicleBtn) {
 
         const formData = new FormData(addForm);
         const formObj = Object.fromEntries(formData);
+        
+
+        if (Object.values(formObj).every((value) => value == '')) {
+            return;
+        }
 
         try {
             await fetch('/vehicle', {

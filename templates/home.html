@@ -1,8 +1,11 @@
 <!-- header part  -->
 {% include "partials/header.html" %}
 
+<!-- searching section  -->
+{% include 'partials/search-bar.html' %}
+
 <div
-  class="electric-vehicle-wrapper d-flex gap-3 flex-wrap justify-content-center"
+  class="electric-vehicle-wrapper d-flex gap-3 pt-5 flex-wrap justify-content-center"
 >
   {% if all_vehicles: %} {% for vehicle in all_vehicles: %}
   <div class="card" style="width: 18rem">
@@ -15,7 +18,12 @@
         </li>
         <li class="card-text">Price: ${{ vehicle['fields']['cost'] }}</li>
       </ul>
-      <a href="/single/{{vehicle['id']}}" class="btn red-rose-btn">Read More</a>
+      <a
+        href="/single/{{vehicle['id']}}"
+        target="_blank"
+        class="btn red-rose-btn"
+        >Read More</a
+      >
     </div>
   </div>
   {% endfor %} {% endif %}

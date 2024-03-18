@@ -43,6 +43,52 @@ async def get_single_vehicle(id: str):
         raise JSONResponse(content={"error": err}, status_code=500)
 
 
+async def get_searched_vehicle(
+    attribute: str,
+    value: str | None = None,
+    min: int | None = None,
+    max: int | None = None,
+):
+
+    result = []
+
+    if attribute and value:
+
+        query = EV_ref.where(attribute, "==", value)
+        query_results = query.stream()
+
+        for doc in query_results:
+            doc_data = doc.to_dict()
+            doc_info = {"id": doc.id, "fields": doc_data}
+            result.append(doc_info)
+
+        return result
+
+    elif attribute and min and max:
+        query = EV_ref.where(attribute, ">=", min).where(attribute, "<=", max)
+        query_result = query.stream()
+        print("max")
+        for doc in query_result:
+            doc_data = doc.to_dict()
+
+            doc_info = {"id": doc.id, "fields": doc_data}
+            result.append(doc_info)
+
+        return result
+
+
+@EV.get("/search")
+async def searched_vehicle(
+    attribute: str,
+    value: str | None = None,
+    min: int | None = None,
+    max: int | None = None,
+):
+    return await get_searched_vehicle(
+        attribute=attribute, value=value, min=min, max=max
+    )
+
+
 @EV.get("/")
 async def get_vehicles():
     return await get_all_vehicles()

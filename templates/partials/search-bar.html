@@ -1,0 +1,134 @@
+<div class="search-bar container-fluid">
+  <select
+    class="form-select search-bar-selector border-danger"
+    aria-label="Default select example"
+  >
+    <option selected>Open this select menu</option>
+    <option value="1">Name</option>
+    <option value="2">Manufacturer</option>
+    <option value="3">Year</option>
+    <option value="4">Battery Size (Kwh)</option>
+    <option value="5">WLTP Range (Km)</option>
+    <option value="6">Cost</option>
+    <option value="7">Power (Kw)</option>
+  </select>
+<form>
+
+    <div class="search-input-area mt-3">
+        <div class="input-group group-area mb-3">
+      <input
+      type="text"
+      class="form-control border-danger"
+      placeholder="Search here"
+      id="search-input"
+      disabled="ture"
+      />
+      <input
+      id="min"
+      min="0"
+      type="number"
+      aria-label="Min"
+      placeholder="Minimum"
+      class="form-control border-danger"
+      disabled="true"
+        required
+        />
+      <input
+      id="max"
+      type="number"
+      aria-label="Max"
+      placeholder="Maximum"
+      min="0"
+      class="form-control border-danger"
+      disabled="true"
+      required
+      />
+    </div>
+    <button class="btn btn-outline-danger searchBtn" type="submit">
+        Search
+    </button>
+</form>
+</div>
+</div>
+
+<script>
+  const searchBarSelector = document.querySelector('.search-bar-selector');
+  const groupArea = document.querySelector('.group-area');
+  const searchInput = document.querySelector('#search-input');
+  const max = document.querySelector('#max');
+  const min = document.querySelector('#min');
+  const searchBtn = document.querySelector('.searchBtn');
+
+  const attributeArray = [
+    'name',
+    'manufacturer',
+    'year',
+    'batterySize',
+    'wltpRange',
+    'cost',
+    'power',
+  ];
+
+  let searchAttributeName;
+  let selectorValue;
+
+  searchBarSelector.addEventListener('change', (e) => {
+
+    selectorValue = e.target.value;
+
+    searchAttributeName = attributeArray[selectorValue - 1];
+    console.log(searchAttributeName);
+    if (selectorValue >= 3 && selectorValue <= 7) {
+      groupArea.querySelectorAll('input[type=number]').forEach((input) => {
+        input.disabled = false;
+      });
+      groupArea.querySelectorAll('input[type=text]').forEach((input) => {
+        input.disabled = true;
+      });
+    } else if(selectorValue < 3 && selectorValue > 0) {
+      groupArea.querySelectorAll('input[type=number]').forEach((input) => {
+        input.disabled = true;
+      });
+      groupArea.querySelectorAll('input[type=text]').forEach((input) => {
+        input.disabled = false;
+      });
+    }else{
+        groupArea.querySelectorAll('input[type=number]').forEach((input) => {
+        input.disabled = true;
+      });
+      groupArea.querySelectorAll('input[type=text]').forEach((input) => {
+        input.disabled = true;
+      });
+    }
+  });
+
+  searchBtn.addEventListener('click', async (e) => {
+
+    e.preventDefault()
+
+
+    if (!searchInput.value & (searchBarSelector.value <= 2)) {
+      console.log('home page');
+    } else if (searchBarSelector.value > 2 && (!min.value || !max.value)) {
+      console.log('home page');
+    } else {
+
+      if(selectorValue>=3 && selectorValue<=7){
+        const queryUrl = new URLSearchParams({
+          attribute: attributeArray[selectorValue-1],
+          min: min.value,
+          max: max.value
+        })
+        window.location.replace(`/search?${queryUrl}`)
+      }else{
+        
+        const queryUrl = new URLSearchParams({
+          attribute: attributeArray[selectorValue-1],
+          value: searchInput.value,
+        })
+        window.location.replace(`/search?${queryUrl}`)
+        console.log("value");
+      }
+    }
+  });
+</script>

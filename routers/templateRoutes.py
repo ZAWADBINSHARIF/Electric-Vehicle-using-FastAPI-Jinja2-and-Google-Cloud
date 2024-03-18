@@ -4,12 +4,42 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 # internal import
-from routers.electricVehicleRoutes import get_all_vehicles
-from routers.electricVehicleRoutes import get_single_vehicle
+from routers.electricVehicleRoutes import (
+    get_all_vehicles,
+    get_single_vehicle,
+    get_searched_vehicle,
+)
 
 templateRoutes = APIRouter()
 
 template = Jinja2Templates(directory="templates")
+
+
+@templateRoutes.get("/search", response_class=HTMLResponse)
+async def search_page(
+    req: Request,
+    attribute: str,
+    value: str | None = None,
+    min: int | None = None,
+    max: int | None = None,
+):
+    if not attribute:
+        return RedirectResponse("/")
+
+    try:
+        user_info = req.state.user_info
+    except:
+        user_info = None
+
+    result = await get_searched_vehicle(
+        attribute=attribute, value=value, min=min, max=max
+    )
+
+    return template.TemplateResponse(
+        request=req,
+        name="home.html",
+        context={"user_info": user_info, "all_vehicles": result},
+    )
 
 
 @templateRoutes.get("/", response_class=HTMLResponse)
