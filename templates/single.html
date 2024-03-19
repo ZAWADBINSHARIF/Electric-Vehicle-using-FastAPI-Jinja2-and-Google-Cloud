@@ -168,7 +168,7 @@
       <div class="review-wrapper d-flex flex-column gap-2">
         {% for review in vehicle['vehicle']['reviews'] %}
 
-        <div class="card text-white bg-danger mb-3" style="max-width: 18rem">
+        <div class="card text-light {% if review['rating'] >= 5 %}bg-success{% else %}bg-danger{% endif %} mb-3" style="max-width: 18rem">
           <div class="card-header">{{review['rating'] * "⭐"}}</div>
           <div class="card-body">
             <h5 class="card-title">{{review['name']}}</h5>
@@ -204,7 +204,7 @@
             id: id,
             name: reviewerName,
             comment: commentBox,
-            rating: starReview.innerText.length
+            rating: starReview.innerText.length,
           });
 
           const response = await fetch(`/vehicle/review?${URL_PARAMS}`, {
@@ -213,9 +213,8 @@
               'content-type': 'application/json',
             },
           });
-          
-          window.location.reload()
 
+          window.location.reload();
         } catch (error) {
           console.log(error);
         }
