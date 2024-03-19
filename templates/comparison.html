@@ -1,6 +1,5 @@
 <!-- header part  -->
 {% include "partials/header.html" %}
-
 <div class="row">
   <div class="col">
     <div class="col">
@@ -50,7 +49,7 @@
               >
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle1['batterySize'] >= vehicle2['batterySize'] %}text-success{% else %}text-danger{% endif %}"
                 id="batterySize"
                 name="batterySize"
                 step="0.01"
@@ -63,7 +62,7 @@
               <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle1['wltpRange'] >= vehicle2['wltpRange'] %}text-success{% else %}text-danger{% endif %}"
                 id="wltpRange"
                 value="{{vehicle1['wltpRange']}}"
                 name="wltpRange"
@@ -76,7 +75,7 @@
               <label for="cost" class="form-label">Cost:</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle1['cost'] <= vehicle2['cost'] %}text-success{% else %}text-danger{% endif %}"
                 id="cost"
                 name="cost"
                 step="0.01"
@@ -89,7 +88,7 @@
               <label for="power" class="form-label">Power (Kw):</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle1['power'] >= vehicle2['power'] %}text-success{% else %}text-danger{% endif %}"
                 id="power"
                 name="power"
                 step="0.01"
@@ -116,7 +115,7 @@
                 class="form-control"
                 id="name"
                 name="name"
-                value="{{vehicle1['name']}}"
+                value="{{vehicle2['name']}}"
                 required
                 disabled
               />
@@ -128,7 +127,7 @@
                 class="form-control"
                 id="manufacturer"
                 name="manufacturer"
-                value="{{vehicle1['manufacturer']}}"
+                value="{{vehicle2['manufacturer']}}"
                 required
                 disabled
               />
@@ -140,7 +139,7 @@
                 class="form-control"
                 id="year"
                 name="year"
-                value="{{vehicle1['year']}}"
+                value="{{vehicle2['year']}}"
                 required
                 disabled
               />
@@ -151,11 +150,11 @@
               >
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle2['batterySize'] >= vehicle1['batterySize'] %}text-success{% else %}text-danger{% endif %}"
                 id="batterySize"
                 name="batterySize"
                 step="0.01"
-                value="{{vehicle1['batterySize']}}"
+                value="{{vehicle2['batterySize']}}"
                 required
                 disabled
               />
@@ -164,9 +163,9 @@
               <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle2['wltpRange'] >= vehicle1['wltpRange'] %}text-success{% else %}text-danger{% endif %}"
                 id="wltpRange"
-                value="{{vehicle1['wltpRange']}}"
+                value="{{vehicle2['wltpRange']}}"
                 name="wltpRange"
                 placeholder="300 km"
                 required
@@ -177,11 +176,11 @@
               <label for="cost" class="form-label">Cost:</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle2['cost'] <= vehicle1['cost'] %}text-success{% else %}text-danger{% endif %}"
                 id="cost"
                 name="cost"
                 step="0.01"
-                value="{{vehicle1['cost']}}"
+                value="{{vehicle2['cost']}}"
                 required
                 disabled
               />
@@ -190,11 +189,11 @@
               <label for="power" class="form-label">Power (Kw):</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control {% if vehicle2['power'] >= vehicle1['power'] %}text-success{% else %}text-danger{% endif %}"
                 id="power"
                 name="power"
                 step="0.01"
-                value="{{vehicle1['power']}}"
+                value="{{vehicle2['power']}}"
                 required
                 disabled
               />
