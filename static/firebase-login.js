@@ -25,7 +25,7 @@ if (logout)
         try {
             await signOut(auth);
             document.cookie = `token=;path=/;SameSite=Strict`;
-            window.location = "/";
+            window.location.reload()
         } catch (error) {
             console.log(error);
         }

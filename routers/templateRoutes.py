@@ -8,11 +8,35 @@ from routers.electricVehicleRoutes import (
     get_all_vehicles,
     get_single_vehicle,
     get_searched_vehicle,
+    comparing_vehicle,
 )
 
 templateRoutes = APIRouter()
 
 template = Jinja2Templates(directory="templates")
+
+
+@templateRoutes.get("/compare", response_class=HTMLResponse)
+async def compare_page(req: Request, id_1: str, id_2: str):
+
+    try:
+        user_info = req.state.user_info
+    except:
+        user_info = None
+
+    comparison = await comparing_vehicle(id_1, id_2)
+
+    print(comparison)
+
+    return template.TemplateResponse(
+        request=req,
+        name="comparison.html",
+        context={
+            "user_info": user_info,
+            "vehicle1": comparison["vehicle1"],
+            "vehicle2": comparison["vehicle2"],
+        },
+    )
 
 
 @templateRoutes.get("/search", response_class=HTMLResponse)

@@ -32,6 +32,7 @@ a {
 .red-rose-btn:hover {
   border: 1px solid var(--RED_ROSE);
   background-color: #ffffff;
+  color: var(--RED_ROSE);
 }
 
 .card {

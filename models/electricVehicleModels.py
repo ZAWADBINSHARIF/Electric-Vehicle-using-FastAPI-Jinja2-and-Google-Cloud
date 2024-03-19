@@ -12,12 +12,5 @@ class PostVehicleModel(BaseModel):
     power: float
 
 
-class UpdateVehicleModel(BaseModel):
-
-    name: str | None = None
-    manufacturer: str | None = None
-    year: int | None = None
-    batterySize: float | None = None
-    wltpRange: float | None = None
-    cost: int | None = None
-    power: float | None = None
+class UpdateVehicleModel(PostVehicleModel):
+    pass

@@ -1,0 +1,72 @@
+<div class="comparison-area container-fluid my-0">
+  <div class="h5 mt-3 text-danger text-uppercase">Comparison</div>
+
+  <div class="input-group">
+    <button
+      type="button"
+      id="clear-btn"
+      class="btn input-group-text btn-outline-danger"
+      onclick="clearBtn()"
+    >
+      Clear
+    </button>
+    <input
+      type="text"
+      disabled
+      id="compare-1"
+      aria-label="Compare vehicle 1"
+      placeholder="Compare vehicle 1"
+      class="form-control border-danger"
+    />
+    <input
+      type="text"
+      disabled
+      id="compare-2"
+      aria-label="Compare vehicle 1"
+      placeholder="Compare vehicle 2"
+      class="form-control border-danger"
+    />
+    <button
+      type="button"
+      onclick="compareBtn()"
+      class="btn input-group-text btn-outline-danger"
+    >
+      Compare
+    </button>
+  </div>
+</div>
+
+<script defer>
+  const compare1 = document.querySelector('#compare-1');
+  const compare2 = document.querySelector('#compare-2');
+
+  function compareBtn() {
+    if (compare1.value == '' && compare2.value == '') return;
+
+    const queryUrl = new URLSearchParams({
+      id_1: compare1.value,
+      id_2: compare2.value,
+    });
+
+    window.location.replace(`/compare?${queryUrl}`);
+  }
+
+  function clearBtn() {
+    compare1.setAttribute('value', '');
+    compare2.setAttribute('value', '');
+    document.querySelectorAll('.add-compare-btn').forEach((item) => {
+      item.disabled = false;
+    });
+  }
+
+  function addCompareBtn(id) {
+    if (compare1.value == '') compare1.setAttribute('value', id);
+    else if (compare2.value == '') {
+      compare2.setAttribute('value', id);
+
+      document.querySelectorAll('.add-compare-btn').forEach((item) => {
+        item.disabled = true;
+      });
+    }
+  }
+</script>

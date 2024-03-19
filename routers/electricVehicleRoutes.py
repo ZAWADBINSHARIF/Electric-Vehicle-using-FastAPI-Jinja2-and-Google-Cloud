@@ -4,7 +4,8 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
 
 # internal import
-from config.databaseConnection import db
+from config.databaseConnection import db, firestore
+from schema.electricVehicleSchema import vehicleConverter
 from models.electricVehicleModels import PostVehicleModel, UpdateVehicleModel
 
 
@@ -18,15 +19,7 @@ async def get_all_vehicles() -> list:
     try:
         docs = EV_ref.stream()
 
-        result = []
-
-        for doc in docs:
-            doc_data = doc.to_dict()
-
-            doc_info = {"id": doc.id, "fields": doc_data}
-            result.append(doc_info)
-
-            print(doc_info)
+        result = vehicleConverter(docs)
 
     except Exception as err:
         raise err
@@ -34,7 +27,7 @@ async def get_all_vehicles() -> list:
     return result
 
 
-async def get_single_vehicle(id: str):
+async def get_single_vehicle(id: str) -> list:
     try:
         result = EV_ref.document(id).get().to_dict()
         return {"vehicle": result}
@@ -57,24 +50,34 @@ async def get_searched_vehicle(
         query = EV_ref.where(attribute, "==", value)
         query_results = query.stream()
 
-        for doc in query_results:
-            doc_data = doc.to_dict()
-            doc_info = {"id": doc.id, "fields": doc_data}
-            result.append(doc_info)
+        result = vehicleConverter(query_results)
 
         return result
 
     elif attribute and min and max:
         query = EV_ref.where(attribute, ">=", min).where(attribute, "<=", max)
-        query_result = query.stream()
-        print("max")
-        for doc in query_result:
-            doc_data = doc.to_dict()
+        query_results = query.stream()
 
-            doc_info = {"id": doc.id, "fields": doc_data}
-            result.append(doc_info)
+        result = vehicleConverter(query_results)
 
         return result
+
+
+async def comparing_vehicle(id_1: str, id_2: str):
+
+    try:
+        vehicle1 = EV_ref.document(id_1).get().to_dict()
+        vehicle2 = EV_ref.document(id_2).get().to_dict()
+
+        return {"vehicle1": vehicle1, "vehicle2": vehicle2}
+
+    except Exception as err:
+        raise err
+
+
+@EV.get("/compare")
+async def compareing_two_vehicle(id_1: str, id_2: str):
+    return await comparing_vehicle(id_1, id_2)
 
 
 @EV.get("/search")
@@ -97,6 +100,25 @@ async def get_vehicles():
 @EV.get("/{id}")
 async def single_vehicle(id: str):
     return await get_single_vehicle(id)
+
+
+@EV.post("/review")
+async def post_review(id: str, name: str, comment: str, rating: int):
+    print(id, name)
+    try:
+        result = EV_ref.document(id).update(
+            {
+                "reviews": firestore.ArrayUnion(
+                    [{"name": name, "comment": comment, "rating": rating}]
+                )
+            }
+        )
+
+        return {"msg": "review added"}
+    except Exception as err:
+        raise err
+
+    pass
 
 
 @EV.post("/")

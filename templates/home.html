@@ -2,7 +2,7 @@
 {% include "partials/header.html" %}
 
 <!-- searching section  -->
-{% include 'partials/search-bar.html' %}
+{% include 'partials/search-bar.html' %} {% include 'partials/comparison-area.html' %}
 
 <div
   class="electric-vehicle-wrapper d-flex gap-3 pt-5 flex-wrap justify-content-center"
@@ -18,12 +18,21 @@
         </li>
         <li class="card-text">Price: ${{ vehicle['fields']['cost'] }}</li>
       </ul>
-      <a
-        href="/single/{{vehicle['id']}}"
-        target="_blank"
-        class="btn red-rose-btn"
-        >Read More</a
-      >
+      <div class="d-flex justify-content-between">
+        <a
+          href="/single/{{vehicle['id']}}"
+          target="_blank"
+          class="btn red-rose-btn"
+          >Read More</a
+        >
+        <button
+          type="button"
+          class="btn btn-outline-danger add-compare-btn"
+          onclick="addCompareBtn('{{vehicle["id"]}}')"
+        >
+          Add Compare
+        </button>
+      </div>
     </div>
   </div>
   {% endfor %} {% endif %}

@@ -1,169 +1,282 @@
 {% include "partials/header.html" %} {% if vehicle: %}
 
-<div class="card">
-  <div class="h2 pt-4 text-center">Electric Vehicle Information</div>
-  <div class="card-body">
-    <form id="single-form">
-      <div class="mb-3">
-        <label for="name" class="form-label">Name:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="name"
-          value="{{vehicle['vehicle']['name']}}"
-          required
-        />
+<div class="row">
+  <div class="col-lg-9 col-12">
+    <div class="card">
+      <div class="h2 pt-4 text-center">Electric Vehicle Information</div>
+      <div class="card-body">
+        <form id="single-form">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              value="{{vehicle['vehicle']['name']}}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="manufacturer" class="form-label">Manufacturer:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="manufacturer"
+              name="manufacturer"
+              value="{{vehicle['vehicle']['manufacturer']}}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="year" class="form-label">Year:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="year"
+              name="year"
+              value="{{vehicle['vehicle']['year']}}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="batterySize" class="form-label"
+              >Battery Size (Kwh):</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="batterySize"
+              name="batterySize"
+              step="0.01"
+              value="{{vehicle['vehicle']['batterySize']}}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
+            <input
+              type="number"
+              class="form-control"
+              id="wltpRange"
+              value="{{vehicle['vehicle']['wltpRange']}}"
+              name="wltpRange"
+              placeholder="300 km"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="cost" class="form-label">Cost:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="cost"
+              name="cost"
+              step="0.01"
+              value="{{vehicle['vehicle']['cost']}}"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="power" class="form-label">Power (Kw):</label>
+            <input
+              type="number"
+              class="form-control"
+              id="power"
+              name="power"
+              step="0.01"
+              value="{{vehicle['vehicle']['power']}}"
+              required
+            />
+          </div>
+          {% if user_info %}
+          <div class="d-flex justify-content-between">
+            <button
+              type="button"
+              id="edit-vehicle-btn"
+              class="btn red-rose-btn"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              id="update-vehicle-btn"
+              class="btn red-rose-btn"
+              onclick="updateVehicle('{{id}}')"
+            >
+              update
+            </button>
+            <button
+              type="button"
+              onclick="deleteVehicle('{{id}}')"
+              id="delete"
+              class="btn red-rose-btn"
+            >
+              Delete
+            </button>
+          </div>
+          {% endif %}
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="manufacturer" class="form-label">Manufacturer:</label>
-        <input
-          type="text"
-          class="form-control"
-          id="manufacturer"
-          name="manufacturer"
-          value="{{vehicle['vehicle']['manufacturer']}}"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="year" class="form-label">Year:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="year"
-          name="year"
-          value="{{vehicle['vehicle']['year']}}"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="batterySize" class="form-label">Battery Size (Kwh):</label>
-        <input
-          type="number"
-          class="form-control"
-          id="batterySize"
-          name="batterySize"
-          step="0.01"
-          value="{{vehicle['vehicle']['batterySize']}}"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="wltpRange" class="form-label">WLTP Range (Km):</label>
-        <input
-          type="number"
-          class="form-control"
-          id="wltpRange"
-          value="{{vehicle['vehicle']['wltpRange']}}"
-          name="wltpRange"
-          placeholder="300 km"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="cost" class="form-label">Cost:</label>
-        <input
-          type="number"
-          class="form-control"
-          id="cost"
-          name="cost"
-          step="0.01"
-          value="{{vehicle['vehicle']['cost']}}"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="power" class="form-label">Power (Kw):</label>
-        <input
-          type="number"
-          class="form-control"
-          id="power"
-          name="power"
-          step="0.01"
-          value="{{vehicle['vehicle']['power']}}"
-          required
-        />
-      </div>
-      {% if user_info %}
-      <div class="d-flex justify-content-between">
-        <button type="button" id="edit-vehicle-btn" class="btn red-rose-btn">
-          Edit
-        </button>
-        <button
-          type="button"
-          id="update-vehicle-btn"
-          class="btn red-rose-btn"
-          onclick="updateVehicle('{{id}}')"
-        >
-          update
-        </button>
-        <button
-          type="button"
-          onclick="deleteVehicle('{{id}}')"
-          id="delete"
-          class="btn red-rose-btn"
-        >
-          Delete
-        </button>
-      </div>
-      {% endif %}
-    </form>
+    </div>
   </div>
-</div>
+  <div class="col-lg-3 col-12">
+    <div class="review-container mt-5">
+      {% if user_info%}
+      <div class="card text-dark bg-light mb-3" style="max-width: 18rem">
+        <div class="card-header">
+          <div class="d-flex flex-row justify-content-between mt-2">
+            <button type="button" class="btn" id="star-dec">➖</button>
+            <h5>Feedback</h5>
+            <button type="button" class="btn" id="star-inc">➕</button>
+          </div>
+          <div id="input-star" class="text-center">⭐⭐⭐⭐⭐</div>
+        </div>
+        <div class="card-body">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="reviewer-name"
+              placeholder="Name"
+            />
+            <label for="reviewer-name">Name</label>
+          </div>
+          <div class="form-floating">
+            <textarea
+              id="commet-box"
+              maxlength="1000"
+              class="form-control"
+              placeholder="Leave a comment here"
+              style="height: 100px"
+            ></textarea>
+            <label for="commet-box">Comments</label>
+          </div>
+          <button
+            type="button"
+            onclick="postReview('{{id}}')"
+            class="btn btn-outline-danger mt-3"
+          >
+            Post
+          </button>
+        </div>
+      </div>
+      {% endif %} {% if vehicle['vehicle']['reviews'] %}
 
-{% endif %}
+      <h3>Reviews</h3>
 
-<script>
-  const editForm = document.querySelector('#single-form');
-  const editButton = document.querySelector('#edit-vehicle-btn');
-  const updateButton = document.querySelector('#update-vehicle-btn');
+      <div class="review-wrapper d-flex flex-column gap-2">
+        {% for review in vehicle['vehicle']['reviews'] %}
 
-  let flag = true;
+        <div class="card text-white bg-danger mb-3" style="max-width: 18rem">
+          <div class="card-header">{{review['rating'] * "⭐"}}</div>
+          <div class="card-body">
+            <h5 class="card-title">{{review['name']}}</h5>
+            <p class="card-text">{{review['comment']}}</p>
+          </div>
+        </div>
 
-  async function deleteVehicle(id) {
-    try {
-      await fetch(`/vehicle/${id}`, {
-        method: 'delete',
-      });
-      window.location = '/';
-    } catch (error) {
-      console.log(error);
+        {% endfor %}
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+
+  {% endif %}
+
+  <script>
+    const editForm = document.querySelector('#single-form');
+    const editButton = document.querySelector('#edit-vehicle-btn');
+    const updateButton = document.querySelector('#update-vehicle-btn');
+    const starReview = document.querySelector('#input-star');
+    const starInc = document.querySelector('#star-inc');
+    const starDec = document.querySelector('#star-dec');
+
+    let flag = true;
+
+    async function postReview(id) {
+      const reviewerName = document.querySelector('#reviewer-name').value;
+      const commentBox = document.querySelector('#commet-box').value;
+      if (reviewerName && commentBox) {
+        try {
+          const URL_PARAMS = new URLSearchParams({
+            id: id,
+            name: reviewerName,
+            comment: commentBox,
+            rating: starReview.innerText.length
+          });
+
+          const response = await fetch(`/vehicle/review?${URL_PARAMS}`, {
+            method: 'post',
+            headers: {
+              'content-type': 'application/json',
+            },
+          });
+          
+          window.location.reload()
+
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
-  }
 
-  editForm.querySelectorAll('input').forEach((input) => {
-    input.disabled = true;
-  });
-
-  async function updateVehicle(id) {
-    if (flag) return;
-
-    const formData = new FormData(editForm);
-    const formObj = Object.fromEntries(formData);
-
-    try {
-      const response = await fetch(`/vehicle/${id}`, {
-        method: 'put',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify(formObj),
-      });
-      console.log(response);
-      location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  editButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    editForm.querySelectorAll('input').forEach((input) => {
-      input.disabled = !flag;
+    starInc.addEventListener('click', (e) => {
+      if (starReview.innerText.length < 10) {
+        starReview.innerText += '⭐';
+      }
     });
-    flag = !flag;
-  });
-</script>
+    starDec.addEventListener('click', (e) => {
+      if (starReview.innerText.length != 1) {
+        starReview.innerText = starReview.innerText.slice(0, -1);
+      }
+    });
 
-{% include "partials/footer.html" %}
+    async function deleteVehicle(id) {
+      try {
+        await fetch(`/vehicle/${id}`, {
+          method: 'delete',
+        });
+        window.location = '/';
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    editForm.querySelectorAll('input').forEach((input) => {
+      input.disabled = true;
+    });
+
+    async function updateVehicle(id) {
+      if (flag) return;
+
+      const formData = new FormData(editForm);
+      const formObj = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch(`/vehicle/${id}`, {
+          method: 'put',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(formObj),
+        });
+        console.log(response);
+        location.reload();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    editButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      editForm.querySelectorAll('input').forEach((input) => {
+        input.disabled = !flag;
+      });
+      flag = !flag;
+    });
+  </script>
+
+  {% include "partials/footer.html" %}
+</div>
