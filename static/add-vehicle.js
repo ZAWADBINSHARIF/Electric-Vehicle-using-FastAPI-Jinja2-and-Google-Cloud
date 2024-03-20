@@ -14,15 +14,22 @@ if (addVehicleBtn) {
         }
 
         try {
-            await fetch('/vehicle', {
+            const response = await fetch('/vehicle', {
                 method: 'post',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify(formObj)
-            });
+            })
 
-            window.location = "/";
+            if (response.status == 500) {
+                const errorP = document.getElementById("error")
+                errorP.innerText = "Name must be unique"
+            } else {
+                window.location = "/";
+            }
+            
+
         } catch (error) {
             console.log(error);
         }

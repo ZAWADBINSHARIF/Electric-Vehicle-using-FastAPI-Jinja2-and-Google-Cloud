@@ -104,7 +104,7 @@ async def single_vehicle(id: str):
 
 @EV.post("/review")
 async def post_review(id: str, name: str, comment: str, rating: int):
-    print(id, name)
+
     try:
         result = EV_ref.document(id).update(
             {
@@ -126,6 +126,17 @@ async def post_vehicle(formData: PostVehicleModel):
 
     try:
         vehicle = dict(formData)
+
+        nameFound = EV_ref.where("name", "==", vehicle["name"])
+        nameFound = EV_ref.where("name", "==", vehicle["name"])
+        query_result = nameFound.stream()
+        query_result_dict = vehicleConverter(query_result)
+        print(query_result_dict)
+
+        if len(query_result_dict) != 0:
+            return JSONResponse(
+                status_code=500, content={"error": "Name must be unique"}
+            )
 
         vehicle_ref = EV_ref.document().set(vehicle)
 
