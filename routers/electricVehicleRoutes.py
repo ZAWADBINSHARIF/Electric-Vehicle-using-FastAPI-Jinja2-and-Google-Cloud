@@ -128,7 +128,7 @@ async def post_vehicle(formData: PostVehicleModel):
         vehicle = dict(formData)
 
         nameFound = EV_ref.where("name", "==", vehicle["name"])
-        nameFound = EV_ref.where("name", "==", vehicle["name"])
+
         query_result = nameFound.stream()
         query_result_dict = vehicleConverter(query_result)
         print(query_result_dict)
